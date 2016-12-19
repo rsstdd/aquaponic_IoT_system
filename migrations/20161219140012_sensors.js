@@ -6,6 +6,7 @@ exports.up = (knex) => {
     table.string('first_name').notNullable().defaultTo('');
     table.string('last_name').notNullable().defaultTo('');
     table.string('email').unique().notNullable();
+    table.integer('gID').notNullable();
     table.string('linkedin_token').notNullable();
     table.timestamps(true, true);
   });
