@@ -11,9 +11,11 @@
   "scripts": {
     "deploy": "rm -rf public; brunch build --production; surge public",
     "lint": "eslint --ext .js,.jsx --ignore-pattern public",
-    "start": "brunch watch --server"
+    "start": "brunch watch --server",
+    "knex": "knex"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -21,13 +23,15 @@
     "johnny-five": "^0.10.6",
     "joi": "^9.2.0",
     "jsonwebtoken": "^7.2.1",
+    "knex": "^0.12.6",
     "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
     "normalize.css": "^4.2.0",
     "passport": "^0.3.2",
     "passport-oauth2": "^1.3.0",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1",
+    "react-dom": "^15.4.1",
+    "react-router": "^4.0.0-alpha.6",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "socket.io": "^1.7.2",
