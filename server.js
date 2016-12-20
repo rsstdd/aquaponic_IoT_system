@@ -13,7 +13,7 @@ const server = require('http').createServer(app);
 
 // Arduino board connection
 const arduino = require('./arduino.js')();
-const io = require('socket.io')(server);
+// const io = require('socket.io')(server);
 
 // --------------------------
 // Socket.io
@@ -69,37 +69,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/auth', auth);
-
-// app.use(arduino);
-
-// Socket Connection handler
-
-// io.sockets.on('connectioon', () => {
-//   // console.log(socket.id);
-//   //
-//   // socket.on('led:on', (data) => {
-//   //   led.on();
-//   //   console.log('LED ON REVIEVED');
-//   // });
-//   //
-//   // socket.on('led:off', (data) => {
-//   //   console.log('LED OFF RECIEVED');
-//   // });
-//   if (board.ready) {
-//     socket.emit('led:status', rgb.isOn ? 'on' : 'off');
-//
-//     button.on('press', () => {
-//       socket.emit('led:status', rgb.isOn ? 'on' : 'off');
-//     });
-//
-//     socket.on('led:toggle', () => {
-//       led.toggle();
-//       io.socket.emit('led:status', rgb.isOn ? 'on' : 'off');
-//     });
-//   }
-// });
-
-// console.log('Waiting for connection');
 
 app.use((err, _req, res, _next) => {
   if (err.output && err.output.statusCode) {

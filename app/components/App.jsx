@@ -9,7 +9,6 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-
       isLoggedIn: false,
       userId: 0
     };
