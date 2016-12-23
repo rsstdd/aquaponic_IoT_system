@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Match, Link, Redirect, BrowserRouter } from 'react-router';
 import Landing from './Landing'
-// import BackgroundVideo from './BackgroundVideo'
 const Main = React.createClass({
 
   getInitialState() {
@@ -15,20 +14,20 @@ const Main = React.createClass({
     };
   },
 
-  // componentDidMount() {
-  //   axios.get('/api/me') // isLoggedIn then user info
-  //     .then((res) => {
-  //       this.setState({
-  //         isLoggedIn: true,
-  //         playerId: res.data.id,
-  //         user: res.data
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       this.setState({ isLoggedIn: false });
-  //     });
-  // },
+  componentDidMount() {
+    axios.get('/api/me') // isLoggedIn then user info
+      .then((res) => {
+        this.setState({
+          isLoggedIn: true,
+          playerId: res.data.id,
+          user: res.data
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ isLoggedIn: false });
+      });
+  },
 
   // authenticateUser(email, password) {
   //   axios.post('api/token', { email, password })
@@ -61,6 +60,7 @@ const Main = React.createClass({
   render() {
     return (
       <main>
+
         <Match
           pattern="/" exactly render={
           () => (
@@ -71,6 +71,19 @@ const Main = React.createClass({
             />
           )}
         />
+
+        <Match
+          pattern="/system" exactly render={
+          () => (
+            this.props.isLoggedIn === false ? (
+              <Redirect to="/" />
+            ) : (
+              <System
+                {...this.state}
+              />)
+            )}
+        />
+
       </main>
     );
   }

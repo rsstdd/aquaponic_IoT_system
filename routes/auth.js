@@ -1,94 +1,80 @@
 'use strict';
 
-const express = require('express');
+const router = require('express').Router();
+
+const boom = require('boom');
 const jwt = require('jsonwebtoken');
 const knex = require('../knex');
+
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const { camelizeKeys, decamelizeKeys } = require('humps');
-const request = require('request-promise')
 
-const router = express.Router();
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
-
-passport.use = new GoogleStrategy({ // this is the generic strategy
+passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://yourdormain:3000/auth/google/callback',
-  passReqToCallback: true
-}, (request, accessToken, refreshToken, profile, done) => {
-  let googleProfile = null;
-
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return done(err, user);
-    // });
-  request({
-    url: 'https://accounts.google.com/o/oauth2/v2/auth',
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
-  .then((gProfile) => {
-    googleProfile = JSON.parse(gProfile)
-
-    return knex('users')
-      .where('email', googleProfile.emailAddress)
-      .first();
-  })
-  .then((user) => {
-    if (user) {
-      return camelizeKeys(user);
-    }
-
-    return knex('users')
-      .insert(decamelizeKeys({
-        firstName: googleProfile.firstName,
-        lastName: googleProfile.lastName,
-        email: googleProfile.emailAddress,
-        gID: googleProfile.id,
-        googleToken: accessToken
-      }), '*');
-  })
-    .then((user) => {
-      user = decamelizeKeys(user);
-      done(null, user);
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
-
-router.get('/auth/google', passport.authenticate('google', { scope: [
-  'https://www.googleapis.com/auth/plus.login',
-  'https://www.googleapis.com/auth/plus.profile.emails.read']
+  callbackURL: process.env.HOST + '/auth/google/callback'
+}, (accessToken, refreshToken, profile, done) => {
+  return done(null, { profile, accessToken, refreshToken });
 }));
 
-router.get('/auth/google/callback',
+router.get('/google',
   passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  }), (req, res) => {
-    const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
-    const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, {
-      expiresIn: '3h'
-    });
-
-    res.cookie('token', token, {
-      httpOnly: true,
-      expires: expiry,
-      secure: router.get('env') === 'production'
-    });
-
-    res.redirect('/');
+    scope: ['email', 'profile', 'https://www.googleapis.com/auth/plus.login']
+  }), (req, res, next) => {
+    console.log(json.stringify(req));
   });
+
+router.get('/google/callback',
+  passport.authenticate('google', {
+    // successRedirect: '/dashboard',
+    failureRedirect: '/' }), (req, res, next) => {
+    // const user = req.user.profile;
+    const email = req.user.profile.emails[0].value;
+    const avatarUrl = req.user.profile.photos[0].value;
+    const authId = req.user.profile.id;
+    const name = req.user.profile.displayName;
+
+    console.log(email, avatarUrl, authId, name);
+    // console.log(req.user.profile.);
+
+    knex('users')
+      .first()
+      .where('auth_id', authId)
+      .then((row) => {
+        if (!row) {
+          const newUser = {
+            email,
+            avatarUrl,
+            authId,
+            name
+          };
+
+          knex('users').insert(decamelizeKeys(newUser), '*')
+          .then((users) => {
+            return person;
+          })
+          .catch((err) => {
+            next(err);
+          });
+        }
+
+        const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
+        const token = jwt.sign({ userId: authId }, process.env.JWT_SECRET, { expiresIn: '3h' });
+
+        res.cookie('token', token, {
+          httpOnly: true,
+          expires: expiry,
+          secure: router.get('env') === 'production'
+        });
+
+        res.cookie('loggedIn', 'true');
+      })
+    .catch((err) => {
+      next(err);
+    });
+    });
 
 router.get('/logout', (req, res) => {
   const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);

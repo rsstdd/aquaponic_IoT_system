@@ -11,8 +11,23 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const server = require('http').createServer(app);
 
+const passport = require('passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Arduino board connection
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
 const arduino = require('./arduino.js')();
+
 // const io = require('socket.io')(server);
 
 // --------------------------
@@ -51,13 +66,11 @@ app.use(cookieParser());
 
 const path = require('path');
 
-app.use(express.static(path.join('public')));
-
-app.use((_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 const auth = require('./routes/auth');
+// const me = require('./routes/me');
+
+app.use('/auth', auth);
+// app.use('/api', me);
 
 // CSRF protection
 app.use((req, res, next) => {
@@ -67,8 +80,6 @@ app.use((req, res, next) => {
 
   res.sendStatus(406);
 });
-
-app.use('/auth', auth);
 
 app.use((err, _req, res, _next) => {
   if (err.output && err.output.statusCode) {
@@ -88,6 +99,12 @@ app.use((err, _req, res, _next) => {
   // eslint-disable-next-line no-console
   console.error(err.stack);
   res.sendStatus(500);
+});
+
+app.use(express.static(path.join('public')));
+
+app.use((_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 console.log('______________________|==========|__________________________');
