@@ -17,11 +17,11 @@ const authorize = function(req, res, next) {
 };
 
 router.get('/me', authorize, (req, res, next) => {
-  const { authId } = req.token;
+  const { userId } = req.token;
   let user;
 
-  knex('players')
-    .where('auth_id', authId)
+  knex('users')
+    .where('auth_id', userId)
     .first()
     .then((row) => {
       if (!row) {

@@ -10,6 +10,7 @@
 * React.js
 * Johnny-Five.js
 * Brunch
+* Passport
 * Arduino Uno
 * Raspberry Pi
 * Debian (Raspberry OS)

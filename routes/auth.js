@@ -23,25 +23,27 @@ router.get('/google',
   passport.authenticate('google', {
     scope: ['email', 'profile', 'https://www.googleapis.com/auth/plus.login']
   }), (req, res, next) => {
-    console.log(json.stringify(req));
+    console.log(res);
   });
 
 router.get('/google/callback',
-  passport.authenticate('google', {
-    // successRedirect: '/dashboard',
-    failureRedirect: '/' }), (req, res, next) => {
-    // const user = req.user.profile;
+  passport.authenticate('google', { failureRedirect: '/' }), (req, res, next) => {
     const email = req.user.profile.emails[0].value;
     const avatarUrl = req.user.profile.photos[0].value;
     const authId = req.user.profile.id;
     const name = req.user.profile.displayName;
+    const newUser = {
+      email,
+      avatarUrl,
+      authId,
+      name
+    };
 
-    console.log(email, avatarUrl, authId, name);
-    // console.log(req.user.profile.);
-
+    console.log(newUser);
     knex('users')
-      .first()
+      // .first()
       .where('auth_id', authId)
+      .select(knex.raw('1=1'))
       .then((row) => {
         if (!row) {
           const newUser = {
@@ -53,15 +55,15 @@ router.get('/google/callback',
 
           knex('users').insert(decamelizeKeys(newUser), '*')
           .then((users) => {
-            return person;
+            return users;
           })
           .catch((err) => {
             next(err);
           });
         }
 
-        const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
-        const token = jwt.sign({ userId: authId }, process.env.JWT_SECRET, { expiresIn: '3h' });
+      const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
+      const token = jwt.sign({ userId: authId }, process.env.JWT_SECRET, { expiresIn: '3h' });
 
         res.cookie('token', token, {
           httpOnly: true,
@@ -70,11 +72,13 @@ router.get('/google/callback',
         });
 
         res.cookie('loggedIn', 'true');
+        // res.cookie('user', newUser);
+        res.redirect('/')
       })
-    .catch((err) => {
-      next(err);
-    });
-    });
+      .catch((err) => {
+        next(err);
+      });
+  });
 
 router.get('/logout', (req, res) => {
   const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);

@@ -67,10 +67,10 @@ app.use(cookieParser());
 const path = require('path');
 
 const auth = require('./routes/auth');
-// const me = require('./routes/me');
+const me = require('./routes/me');
 
 app.use('/auth', auth);
-// app.use('/api', me);
+app.use('/api', me);
 
 // CSRF protection
 app.use((req, res, next) => {
@@ -93,7 +93,8 @@ app.use((err, _req, res, _next) => {
     return res
       .status(err.status)
       .set('Content-Type', 'text/plain')
-      .send(err.errors[0].messages[0]);
+      .send(err.errors[0].messages[0])
+      .send(err.errors);
   }
 
   // eslint-disable-next-line no-console

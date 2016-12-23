@@ -2,24 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Match, Link, Redirect, BrowserRouter } from 'react-router';
-import Landing from './Landing'
+import Landing from './Landing';
+
 const Main = React.createClass({
 
   getInitialState() {
     return {
-      videoURL: 'https://pixabay.com/en/videos/aquarium-fish-marine-underwater-6636',
       showModal: false,
       isLoggedIn: false,
-      userId: 0
+      user: []
     };
   },
 
   componentDidMount() {
     axios.get('/api/me') // isLoggedIn then user info
       .then((res) => {
+        console.log(res);
         this.setState({
           isLoggedIn: true,
-          playerId: res.data.id,
           user: res.data
         });
       })
@@ -29,23 +29,24 @@ const Main = React.createClass({
       });
   },
 
-  // authenticateUser(email, password) {
-  //   axios.post('api/token', { email, password })
-  //   .then((res) => {
-  //     this.setState({
-  //       isLoggedIn: true,
-  //       playerId: res.data.id,
-  //       user: res.data
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  // },
+  authenticateUser(email, password) {
+    axios.post('api/token', { email, password })
+    .then((res) => {
+      this.setState({
+        isLoggedIn: true,
+        playerId: res.data.id,
+        user: res.data
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },
 
   logOut() {
     this.setState({
-      isLoggedIn: false
+      isLoggedIn: false,
+      user: []
     });
   },
 
@@ -65,6 +66,7 @@ const Main = React.createClass({
           pattern="/" exactly render={
           () => (
             <Landing
+              handleLoginState={this.handleLoginState}
               closeModal={this.closeModal}
               openModal={this.openModal}
               {...this.state}
@@ -73,12 +75,13 @@ const Main = React.createClass({
         />
 
         <Match
-          pattern="/system" exactly render={
+          pattern="/dashboard" render={
           () => (
             this.props.isLoggedIn === false ? (
               <Redirect to="/" />
             ) : (
-              <System
+              <Dashboard
+                handleLoginState={this.handleLoginState}
                 {...this.state}
               />)
             )}
