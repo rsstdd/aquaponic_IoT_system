@@ -14,7 +14,7 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
 * Brunch
 * Passport
 * Arduino Uno
-* Raspberry Pi
+* Raspberry Pi 3 Model B
 * Debian (Raspberry OS)
 
 ## Hardware:
@@ -28,7 +28,7 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
  * DS18B20 Temperature Sensor - Waterproof Digital Thermal Probe Sensor
 
 ## Next Steps:
-Add DO, and Ph sensor. Expand system to include larger volume of grow media and water. 
+Add DO, and Ph sensor. Expand system to include larger volume of grow media and water.
 
 
 * Aquaponics - a system of aquaculture in which the waste produced by farmed fish or other aquatic animals supplies nutrients for plants grown hydroponically, which in turn purifies the water
