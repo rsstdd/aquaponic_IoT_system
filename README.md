@@ -1,8 +1,6 @@
-![Landing Page](./READMEIMG/landing.png)
+# ARDUINOPONICS
 
-
-# aquaponic_controller
-
+![Landing Page](./READMEIMG/Landing.png)
 
 ## Summary   
 
