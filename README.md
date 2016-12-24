@@ -1,3 +1,6 @@
+![Landing Page](./READMEIMG/Landing.png?raw=true "Landing")
+
+
 # aquaponic_controller
 
 
