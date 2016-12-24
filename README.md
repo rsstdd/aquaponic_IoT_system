@@ -1,6 +1,6 @@
 # ARDUINOPONICS
 
-![Landing Page](./READMEIMG/Landing.png)
+![Landing Page](./READMEIMG/landing.png)
 
 ## Summary   
 
