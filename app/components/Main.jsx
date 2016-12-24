@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Match, Link, Redirect, BrowserRouter } from 'react-router';
 import Landing from './Landing';
+import Dashboard from './Dashboard';
 
 const Main = React.createClass({
 

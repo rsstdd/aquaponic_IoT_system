@@ -22,6 +22,7 @@ h1 h2 {
   text-align: center;
 }
 
+
 /* ------------ Homepage -----------*/
 /* ------- Hero --------*/
 
@@ -215,4 +216,23 @@ h1 h2 {
   and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: landscape) {
 
+}
+
+/* ------------ Dashboard -----------*/
+/* ------- Nav --------*/
+.nav {
+  padding-top: 2vh;
+}
+#nav {
+  color: #FA6900;
+  /*border:*/
+  background-image:  #f8f8f8 url('image/leaf-background.jpeg');
+}
+
+.orange {
+  color: #FA6900;
+}
+
+.white {
+  color: #fff;
 }
