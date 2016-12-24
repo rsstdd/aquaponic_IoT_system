@@ -1,5 +1,5 @@
 # ARDUINOPONICS
-## Summary 
+
 Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspberry Pi and an Arduino with environmental sensors to collect real-time data from the system then displays the data through a web browser interface.
 
 ![Landing Page](./READMEIMG/landing.png)
