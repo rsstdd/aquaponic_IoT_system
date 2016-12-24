@@ -1,8 +1,9 @@
 # ARDUINOPONICS
+## Summary 
+Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspberry Pi and an Arduino with environmental sensors to collect real-time data from the system then displays the data through a web browser interface.
 
 ![Landing Page](./READMEIMG/landing.png)
 
-## Summary   
 
 ## Tech Used:
 * Node.js
@@ -27,3 +28,7 @@
  * DS18B20 Temperature Sensor - Waterproof Digital Thermal Probe Sensor
 
 ## Next Steps:
+
+
+
+* Aquaponics - a system of aquaculture in which the waste produced by farmed fish or other aquatic animals supplies nutrients for plants grown hydroponically, which in turn purifies the water
