@@ -73,7 +73,7 @@ router.get('/google/callback',
 
         res.cookie('loggedIn', 'true');
         // res.cookie('user', newUser);
-        res.redirect('/')
+        res.redirect('/dashboard')
       })
       .catch((err) => {
         next(err);
