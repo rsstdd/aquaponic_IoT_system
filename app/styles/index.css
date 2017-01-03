@@ -29,8 +29,8 @@ h1 h2 {
 #hero {
   width: 100%;
   height: 90vh;
-  padding: 100px;
-  margin-top: 3%;
+  padding: 50px;
+  margin-top: 2%;
   margin-bottom: 3%;
   text-align: center;
   color: black;
@@ -235,4 +235,123 @@ h1 h2 {
 
 .white {
   color: #fff;
+}
+
+/* ------------ Dashboard -----------*/
+/* ------- Gauge --------*/
+#power-gauge g.arc {
+  fill: steelblue;
+}
+
+#power-gauge g.pointer {
+  fill: #e85116;
+  stroke: #b64011;
+}
+
+#power-gauge g.label text {
+  text-anchor: middle;
+  font-size: 14px;
+  font-weight: bold;
+  fill: #666;
+}
+.gauge-container {
+  width: 160px;
+  height: 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.gauge-bg {
+  z-index: 1;
+  position: absolute;
+  background-color: #ccc;
+  width: 160px;
+  height: 100px;
+  top: 0%;
+  border-radius: 80px 80px 0px 0px;
+}
+
+.gauge-cover {
+  z-index: 3;
+  position: absolute;
+  background-color: #fff;
+  width: 140px;
+  height: 80px;
+  top: 10px;
+  margin-left: 10px;
+  margin-right: auto;
+  border-radius: 80px 80px 0px 0px;
+}
+
+.gauge-level {
+  z-index: 2;
+  position: absolute;
+  width: 160px;
+  height: 80px;
+  top: 80px;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0px 0px 100px 100px;
+}
+
+.gaugeLevel-appear, .gaugeLevel1-appear, .gaugeLevel2-appear, .gaugeLevel3-appear, .gaugeLevel4-appear, .gaugeLevel5-appear, .gaugeLevel6-appear, .gaugeLevel7-appear, .gaugeLevel8-appear, .gaugeLevel9-appear, .gaugeLevel10-appear {
+  transform: rotate(0);
+  transform-origin: center top;
+}
+.gaugeLevel-appear.gaugeLevel-appear-active, .gaugeLevel1-appear.gaugeLevel1-appear-active, .gaugeLevel2-appear.gaugeLevel2-appear-active, .gaugeLevel3-appear.gaugeLevel3-appear-active, .gaugeLevel4-appear.gaugeLevel4-appear-active, .gaugeLevel5-appear.gaugeLevel5-appear-active, .gaugeLevel6-appear.gaugeLevel6-appear-active, .gaugeLevel7-appear.gaugeLevel7-appear-active, .gaugeLevel8-appear.gaugeLevel8-appear-active, .gaugeLevel9-appear.gaugeLevel9-appear-active, .gaugeLevel10-appear.gaugeLevel10-appear-active {
+  transition: transform 1.4s ease;
+}
+
+.gaugeLevel-appear.gaugeLevel-appear-active {
+  transform: rotate(0);
+}
+.gaugeLevel1-appear.gaugeLevel1-appear-active {
+  transform: rotate(.05turn);
+}
+.gaugeLevel2-appear.gaugeLevel2-appear-active {
+  transform: rotate(.1turn);
+}
+.gaugeLevel3-appear.gaugeLevel3-appear-active {
+  transform: rotate(.15turn);
+}
+.gaugeLevel4-appear.gaugeLevel4-appear-active {
+  transform: rotate(.2turn);
+}
+.gaugeLevel5-appear.gaugeLevel5-appear-active {
+  transform: rotate(.25turn);
+}
+.gaugeLevel6-appear.gaugeLevel6-appear-active {
+  transform: rotate(.3turn);
+}
+.gaugeLevel7-appear.gaugeLevel7-appear-active {
+  transform: rotate(.35turn);
+}
+.gaugeLevel8-appear.gaugeLevel8-appear-active {
+  transform: rotate(.4turn);
+}
+.gaugeLevel9-appear.gaugeLevel9-appear-active {
+  transform: rotate(.45turn);
+}
+.gaugeLevel10-appear.gaugeLevel10-appear-active {
+  transform: rotate(.5turn);
+}
+
+.gauge-data {
+  z-index: 4;
+  color: #444;
+  font-size: 3.4em;
+  line-height: 25px;
+  position: absolute;
+  width: 160px;
+  height: 80px;
+  top: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 1s ease-out;
 }

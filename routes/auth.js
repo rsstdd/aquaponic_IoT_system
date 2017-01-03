@@ -41,7 +41,6 @@ router.get('/google/callback',
 
     console.log(newUser);
     knex('users')
-      // .first()
       .where('auth_id', authId)
       .select(knex.raw('1=1'))
       .then((row) => {
@@ -72,7 +71,7 @@ router.get('/google/callback',
         });
 
         res.cookie('loggedIn', 'true');
-        // res.cookie('user', newUser);
+        res.cookie('user', newUser);
         res.redirect('/dashboard')
       })
       .catch((err) => {
@@ -82,9 +81,10 @@ router.get('/google/callback',
 
 router.get('/logout', (req, res) => {
   const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
-
+console.log('hello', res.cookie);
   res.cookie('loggedIn', 'false', { expires: expiry });
   res.clearCookie('token');
+  res.clearCookie('user');
   res.redirect('/');
 });
 

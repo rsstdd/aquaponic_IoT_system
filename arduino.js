@@ -8,73 +8,34 @@ module.exports = function() {
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
 
-  let currentTime = '';
-  let currentHour = '';
-  let currentMinute = '';
-  let dayLightSchedule = false;
-
-  function getCurrentTime() {
-    let date = new Date();
-
-    currentHour = date.getHours();
-    currentMinute = date.getMinutes();
-
-    console.log(currentMinute);
-  }
-
-  board.on('ready', () => {
   // --------------------------
   // Temperature sensor
   // --------------------------
-
-    // new five.Thermometer({
-    //   controller: 'TMP36',
-    //   pin: 'A0'
-    // });
-
-    const temperature = new five.Thermometer({
-      controller: 'TMP36',
-      pin: 'A0',
-      freq: 1000
+  //     const temperature = new five.Thermometer({
+  //       controller: 'TMP36', // 'DS18B20',
+  //       pin: 'A5',
+  //       freq: 2000
+  //     });
+  //
+  //     temperature.on('change', function() {
+  //       console.log(this.fahrenheit);
+  //     });
+  //   });
+  // };
+  board.on('ready', function() {
+    const multi = new five.Multi({
+        controller: 'HIH6130'
     });
 
-    // temperature.on('data', () => {
-    //   const avgArr = [];
-    //   let sum = 0;
-    //   let avg = 0;
-    //
-    //   // console.log(temperature.fahrenheit);
-    //   for (let i = 0; i < 1000; i++) {
-    //     // console.log(this);
-    //     avgArr.push(temperature.fahrenheit);
-    //   }
-    //
-    //   sum = avgArr.reduce((prev, curr) => prev + curr);
-    //   avg = sum / 1000;
-    //   console.log(avg);
-    // });
+    multi.on('change', function() {
+      console.log('Thermometer');
+      console.log('  fahrenheit        : ', this.thermometer.fahrenheit);
+      console.log('--------------------------------------');
 
-    // const multi = new five.Multi({
-    //   controller: 'HIH6130'
-    // });
-    //
-    // multi.on('change', function() {
-    //   console.log(this.thermometer.fahrenheit);
-    //   console.log('Thermometer');
-    //   console.log('  celsius           : ', this.thermometer.celsius);
-    //   console.log('  fahrenheit        : ', this.thermometer.fahrenheit);
-    //   console.log('  kelvin            : ', this.thermometer.kelvin);
-    //   console.log('--------------------------------------');
-    //
-    //   console.log('Hygrometer');
-    //   console.log('  relative humidity : ', this.hygrometer.relativeHumidity);
-    //   console.log('--------------------------------------');
-    // });
-
-  // const temperature = new five.Temperature({
-  //   // controller: 'TMP36',
-  //   pin: 'A0'
-  // });
+      console.log('Hygrometer');
+      console.log('  relative humidity : ', this.hygrometer.relativeHumidity);
+      console.log('--------------------------------------');
+    });
 
     // multi.on('data', function() {
     //   console.log('Temperature sensor: ')
@@ -84,7 +45,8 @@ module.exports = function() {
     //   // Transmit it
     //   temperature.emit('temp', this.celsius);
     // });
-
+  });
+}
   //--------------------------
   // Servo
   //--------------------------
@@ -111,21 +73,6 @@ module.exports = function() {
   //     }
   //   }
   // }
-
-  // board.on('ready', function() {
-  //   var rgb = new five.Led.RGB([6, 5, 3]); // pins with options obj and pins obj
-  //   var index = 0;
-  //   //  var rainbow = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#8F00FF'];
-  //    var rainbow = ['#5d8aa8', '#ffbf00',' #a4c639']
-  //
-  //   this.loop(1000, () => {
-  //     if (index + 1 === rainbow.length) {
-  //       index = 0;
-  //     }
-  //     rgb.color(rainbow[index++]);
-  //     rgb.intensity(1000);
-  //   });
-  // });
 
   // On first client connection start a new game
     // io.sockets.on('connection', (socket) => {
@@ -220,5 +167,5 @@ module.exports = function() {
       //   }, 1000);
       //
       // });
-  }); // end socket connection
-};
+  // }); // end socket connection
+// };

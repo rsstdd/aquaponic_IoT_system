@@ -11,14 +11,19 @@ const Main = React.createClass({
     return {
       showModal: false,
       isLoggedIn: false,
-      user: []
+      user: [],
+      chartData: {
+        columns: [
+          ['data1', 75],
+          ['data2', 42]
+        ]
+      }
     };
   },
 
   componentDidMount() {
     axios.get('/api/me') // isLoggedIn then user info
       .then((res) => {
-        console.log(res);
         this.setState({
           isLoggedIn: true,
           user: res.data
@@ -30,8 +35,14 @@ const Main = React.createClass({
       });
   },
 
+  updateAuth(loggedIn) {
+    this.setState({
+      isLoggedIn: true,
+    })
+  },
+
   authenticateUser(email, password) {
-    axios.post('api/token', { email, password })
+    axios.post('api/me', { email, password })
     .then((res) => {
       this.setState({
         isLoggedIn: true,
@@ -45,9 +56,13 @@ const Main = React.createClass({
   },
 
   logOut() {
-    this.setState({
-      isLoggedIn: false,
-      user: []
+    console.log('Main');
+    axios.get('/auth/logout')
+    .then((res) => {
+      this.setState({
+        isLoggedIn: false,
+        user: []
+      })
     });
   },
 
@@ -62,7 +77,6 @@ const Main = React.createClass({
   render() {
     return (
       <main>
-
         <Match
           pattern="/" exactly render={
           () => (
@@ -83,6 +97,7 @@ const Main = React.createClass({
             ) : (
               <Dashboard
                 handleLoginState={this.handleLoginState}
+                logOut={this.logOut}
                 {...this.state}
               />)
             )}

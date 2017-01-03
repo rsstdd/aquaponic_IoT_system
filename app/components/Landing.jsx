@@ -1,13 +1,9 @@
-// import BackgroundVideo from './BackgroundVideo';
 import React from 'react';
 import { Button, Col, Modal, Grid, Image, Popover, Tooltip, OverlayTrigger, Well, PageHeader, Jumbotron } from 'react-bootstrap';
 
 const Landing = React.createClass({
 
   handleLogin() {
-    console.log('_________');
-    console.log('____handleLogin_____');
-    console.log('_________');
     window.location.href='auth/google';
   },
 
@@ -23,7 +19,6 @@ const Landing = React.createClass({
                 <p>
                   <Button
                     bsSize="large"
-                    // bsStyle="primary"
                     className="hero-btn"
                     onClick={this.props.openModal}
                   >

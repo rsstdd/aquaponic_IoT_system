@@ -7,13 +7,6 @@ import Main from './Main';
 
 const App = React.createClass({
 
-  // getInitialState() {
-  //   return {
-  //     isLoggedIn: false,
-  //     userId: 0
-  //   };
-  // },
-
   render() {
     return (
       <BrowserRouter >
