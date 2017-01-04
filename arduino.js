@@ -9,44 +9,45 @@ module.exports = function() {
   console.log('______________________|===========|__________________________');
 
   // --------------------------
-  // Temperature sensor
+  // Temperature Sensor
   // --------------------------
-  //     const temperature = new five.Thermometer({
-  //       controller: 'TMP36', // 'DS18B20',
-  //       pin: 'A5',
-  //       freq: 2000
-  //     });
-  //
-  //     temperature.on('change', function() {
-  //       console.log(this.fahrenheit);
-  //     });
-  //   });
-  // };
+
   board.on('ready', function() {
-    const multi = new five.Multi({
-        controller: 'HIH6130'
+    // This requires OneWire support using the ConfigurableFirmata
+    var thermometer = new five.Thermometer({
+      controller: 'DS18B20',
+      pin: 2
     });
 
-    multi.on('change', function() {
-      console.log('Thermometer');
-      console.log('  fahrenheit        : ', this.thermometer.fahrenheit);
-      console.log('--------------------------------------');
-
-      console.log('Hygrometer');
-      console.log('  relative humidity : ', this.hygrometer.relativeHumidity);
-      console.log('--------------------------------------');
+    thermometer.on("change", function() {
+      console.log(this.fahrenheit.toFixed(1) + "°F");
+      // console.log("0x" + this.address.toString(16));
     });
-
-    // multi.on('data', function() {
-    //   console.log('Temperature sensor: ')
-    //   console.log(this.celsius + '°C');
-    //   console.log('\n');
-    //
-    //   // Transmit it
-    //   temperature.emit('temp', this.celsius);
-    // });
   });
-}
+
+  // --------------------------
+  // Temperature Humidity Sensor
+  // --------------------------
+//
+//   board.on("ready", function() {
+//     var multi = new five.Multi({
+//       controller: "HIH6130"
+//     });
+//
+//     multi.on("data", function() {
+//       console.log("Thermometer");
+//       console.log("  celsius           : ", this.thermometer.celsius);
+//       console.log("  fahrenheit        : ", this.thermometer.fahrenheit);
+//       console.log("  kelvin            : ", this.thermometer.kelvin);
+//       console.log("--------------------------------------");
+//
+//       console.log("Hygrometer");
+//       console.log("  relative humidity : ", this.hygrometer.relativeHumidity);
+//       console.log("--------------------------------------");
+//     });
+//   });
+// };
+
   //--------------------------
   // Servo
   //--------------------------

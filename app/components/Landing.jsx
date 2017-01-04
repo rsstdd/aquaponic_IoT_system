@@ -13,7 +13,7 @@ const Landing = React.createClass({
         <Grid fluid={true}>
           <Col>
             <Jumbotron id="hero">
-              <Well>
+              <Well id="well">
                 <h1>ARDUINOPONICS</h1>
                 <h2>An Automated Aquaponics System</h2>
                 <p>

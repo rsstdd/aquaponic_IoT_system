@@ -17,20 +17,26 @@ const Dashboard = React.createClass({
         />
         <Grid fluid={true}>
 
-          <Col  xs={4}>
-            <Gauge type='half-gauge' value={80} color='#FA6900' width='.1em' />
-            <h5>Air Temp</h5>
+          <Col xs={4} md={8}>
+            <Well bsSize="small">
+              <Gauge type='half-gauge' value={80} color='#FA6900' width='.1em' />
+              <h5>Air Temp</h5>
+            </Well>
           </Col>
 
-          <Col  xs={4}>
-            <Gauge type='half-gauge' value={33} color='#FA6900' width='.1em' />
-            <h5 className="center">Relative Humidity</h5>
-          </Col>
+          <Well bsSize="small">
+            <Col xs={4} md={8}>
+              <Gauge type='half-gauge' value={33} color='#FA6900' width='.1em' />
+              <h5 className="center">Relative Humidity</h5>
+            </Col>
+          </Well>
 
-          <Col xs={4}>
-            <Gauge type='half-gauge' value={90} color='#FA6900' width='.1em' />
-            <h5>Air Temp</h5>
-          </Col>
+            <Well bsSize="small">
+              <Col xs={4} md={8}>
+                <Gauge type='half-gauge' value={90} color='#FA6900' width='.1em' />
+                <h5>Air Temp</h5>
+              </Col>
+            </Well>
 
         </Grid>
       </div>

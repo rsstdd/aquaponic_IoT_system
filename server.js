@@ -26,26 +26,86 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-const arduino = require('./arduino.js')();
+// const arduino = require('./arduino.js')();
+const io = require('socket.io')(server);
+'use strict';
 
-// const io = require('socket.io')(server);
+const five = require('johnny-five');
+const board = new five.Board();
 
-// --------------------------
-// Socket.io
-// --------------------------
-// Used for streaming results
+module.exports = function() {
+  console.log('______________________|===========|__________________________');
+  console.log('______________________|--Arduino--|__________________________');
+  console.log('______________________|===========|__________________________');
 
-// const tempIn = io.of('/temp');
-// const tempOut = io.of('/photo');
-// const humidity = io.of('/humidity');
-// const photo = io.of('/photo');
-// const relay = io.of('/relay');
+  // --------------------------
+  // Temperature Sensor
+  // --------------------------
+
+  board.on('ready', function() {
+    // This requires OneWire support using the ConfigurableFirmata
+    var thermometer = new five.Thermometer({
+      controller: 'DS18B20',
+      pin: 2
+    });
+
+    thermometer.on("change", function() {
+      const temp = this.fahrenheit.toFixed(1);
+      console.log(this.fahrenheit.toFixed(1) + "°F");
+      // console.log("0x" + this.address.toString(16));
+    });
+  });
+
+  // --------------------------
+  // Temperature Humidity Sensor
+  // --------------------------
+
+//   board.on("ready", function() {
+//     var multi = new five.Multi({
+//       controller: "HIH6130"
+//     });
 //
-// app.use(tempIn);
-// app.use(tempOut);
-// app.use(humidity);
-// app.use(photo);
-// app.use(relay);
+//     multi.on("data", function() {
+//       console.log("Thermometer");
+//       console.log("  celsius           : ", this.thermometer.celsius);
+//       console.log("  fahrenheit        : ", this.thermometer.fahrenheit);
+//       console.log("  kelvin            : ", this.thermometer.kelvin);
+//       console.log("--------------------------------------");
+//
+//       console.log("Hygrometer");
+//       console.log("  relative humidity : ", this.hygrometer.relativeHumidity);
+//       console.log("--------------------------------------");
+//     });
+//   });
+// };
+
+  //--------------------------
+  // Servo
+  //--------------------------
+
+  // servo = new five.Servo({
+  //     pin: 12,
+  //     type: 'continuous'
+  // });
+  //
+  // servo.stop();
+  // daylights.off();
+
+  // function lightScheduler(){
+  //
+  //   getCurrentTime();
+  //   console.log('current hour is ' + currentHour);
+  //
+  //   if (dayLightSchedule = true) {
+  //
+  //     if (currentHour >= dayLightStartTime && currentHour <= dayLightEndTime) {
+  //         daylights.on();
+  //     } else {
+  //       daylights.off();
+  //       console.log('Daylight off')
+  //     }
+  //   }
+  // }
 
 app.disable('x-powered-by');
 
@@ -106,6 +166,19 @@ app.use(express.static(path.join('public')));
 
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// --------------------------
+// Socket.io
+// --------------------------
+// Used for streaming results
+
+io.on('connection', function (socket) {
+  console.log(temp);
+  // socket.emit('news', { hello: 'world' });
+  // socket.on('my other event', function (data) {
+  //   console.log(data);
+  // });
 });
 
 console.log('______________________|==========|__________________________');
