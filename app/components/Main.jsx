@@ -1,9 +1,9 @@
+import { Match, Redirect } from 'react-router';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { Match, Link, Redirect, BrowserRouter } from 'react-router';
-import Landing from './Landing';
 import Dashboard from './Dashboard';
+import Landing from './Landing';
+import io from 'socket.io-client';
 
 const Main = React.createClass({
 
@@ -12,17 +12,12 @@ const Main = React.createClass({
       showModal: false,
       isLoggedIn: false,
       user: [],
-      chartData: {
-        columns: [
-          ['data1', 75],
-          ['data2', 42]
-        ]
-      }
+      data: []
     };
   },
 
   componentDidMount() {
-    axios.get('/api/me') // isLoggedIn then user info
+    axios.get('/api/me')
       .then((res) => {
         this.setState({
           isLoggedIn: true,
@@ -33,12 +28,19 @@ const Main = React.createClass({
         console.log(err);
         this.setState({ isLoggedIn: false });
       });
+
+    const socket = io.connect('http://localhost:8080/');
+
+    socket.on('temp', (data) => {
+      console.log('Incoming Data', data);
+      this.setState({ data: data.temp });
+    });
   },
 
-  updateAuth(loggedIn) {
+  updateAuth() {
     this.setState({
-      isLoggedIn: true,
-    })
+      isLoggedIn: true
+    });
   },
 
   authenticateUser(email, password) {
@@ -75,6 +77,7 @@ const Main = React.createClass({
   },
 
   render() {
+    console.log(this.state.data);
     return (
       <main>
         <Match
@@ -99,6 +102,7 @@ const Main = React.createClass({
                 handleLoginState={this.handleLoginState}
                 logOut={this.logOut}
                 {...this.state}
+                data={this.state.data}
               />)
             )}
         />

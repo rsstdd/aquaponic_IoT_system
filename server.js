@@ -9,7 +9,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const server = require('http').createServer(app);
+const http = require('http');
+
+const server = http.createServer(app);
 
 const passport = require('passport');
 
@@ -26,14 +28,13 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-// const arduino = require('./arduino.js')();
-const io = require('socket.io')(server);
-'use strict';
+server.listen(8080);
+const socketIO = require('socket.io');
+const io = socketIO(server);
 
 const five = require('johnny-five');
 const board = new five.Board();
 
-module.exports = function() {
   console.log('______________________|===========|__________________________');
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
@@ -42,19 +43,38 @@ module.exports = function() {
   // Temperature Sensor
   // --------------------------
 
-  board.on('ready', function() {
-    // This requires OneWire support using the ConfigurableFirmata
-    var thermometer = new five.Thermometer({
-      controller: 'DS18B20',
-      pin: 2
-    });
+let temp = 0;
 
-    thermometer.on("change", function() {
-      const temp = this.fahrenheit.toFixed(1);
-      console.log(this.fahrenheit.toFixed(1) + "°F");
-      // console.log("0x" + this.address.toString(16));
-    });
+board.on('ready', function() {
+  this.samplingInterval(1000);
+  // This requires OneWire support using the ConfigurableFirmata
+  const thermometer = new five.Thermometer({
+    controller: 'DS18B20',
+    pin: 2
   });
+
+  thermometer.on("change", function() {
+    temp = (this.fahrenheit.toFixed(1));
+    console.log("arduino: ", temp);
+  });
+});
+
+// --------------------------
+// Socket.io
+// --------------------------
+// Used for streaming results
+
+io.on('connection', (socket) => {
+  const tm = setInterval(() => {
+    socket.emit('temp', { 'temp': temp });
+    console.log('socket: ', temp);
+  }, 5000);
+
+  socket.on('disconnect', () => {
+    clearInterval(tm);
+  });
+  console.log('temp');
+});
 
   // --------------------------
   // Temperature Humidity Sensor
@@ -79,34 +99,6 @@ module.exports = function() {
 //   });
 // };
 
-  //--------------------------
-  // Servo
-  //--------------------------
-
-  // servo = new five.Servo({
-  //     pin: 12,
-  //     type: 'continuous'
-  // });
-  //
-  // servo.stop();
-  // daylights.off();
-
-  // function lightScheduler(){
-  //
-  //   getCurrentTime();
-  //   console.log('current hour is ' + currentHour);
-  //
-  //   if (dayLightSchedule = true) {
-  //
-  //     if (currentHour >= dayLightStartTime && currentHour <= dayLightEndTime) {
-  //         daylights.on();
-  //     } else {
-  //       daylights.off();
-  //       console.log('Daylight off')
-  //     }
-  //   }
-  // }
-
 app.disable('x-powered-by');
 
 switch (app.get('env')) {
@@ -121,7 +113,8 @@ switch (app.get('env')) {
   default:
 }
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const path = require('path');
@@ -166,19 +159,6 @@ app.use(express.static(path.join('public')));
 
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// --------------------------
-// Socket.io
-// --------------------------
-// Used for streaming results
-
-io.on('connection', function (socket) {
-  console.log(temp);
-  // socket.emit('news', { hello: 'world' });
-  // socket.on('my other event', function (data) {
-  //   console.log(data);
-  // });
 });
 
 console.log('______________________|==========|__________________________');

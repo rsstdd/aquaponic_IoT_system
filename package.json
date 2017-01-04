@@ -39,8 +39,7 @@
     "react-router": "^4.0.0-alpha.6",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
-    "socket.io": "^1.7.2",
-    "socket.io-client": "^1.7.2"
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.7.1",
