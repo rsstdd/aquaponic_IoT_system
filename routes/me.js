@@ -3,7 +3,7 @@
 const express = require('express');
 const knex = require('../knex');
 const boom = require('boom');
-const { camelizeKeys, decamelizeKeys } = require('humps');
+const { camelizeKeys } = require('humps');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
@@ -17,25 +17,26 @@ const authorize = function(req, res, next) {
 };
 
 router.get('/me', authorize, (req, res, next) => {
-  const { userId } = req.token;
+  console.log('######### get/me #######');
+  console.log(req.token);
+  let { userId } = req.token;
   let user;
+  userId = parseInt(userId)
+  console.log(userId);
 
   knex('users')
-    .where('auth_id', userId)
-    .first()
-    .then((row) => {
-      if (!row) {
-        throw boom.create(
-          'Not Found'
-        );
-      }
+  .where('auth_id', userId)
+  .then((row) => {
+    if (!row) {
+      throw boom.create(
+        'Not Found'
+      );
+    }
 
-      user = camelizeKeys(row);
+    user = camelizeKeys(row);
 
-      delete user.hashedPassword;
-
-      res.send(user);
-    })
+    res.send(user);
+  })
     .catch((err) => {
       next(err);
       res.redirect('/');

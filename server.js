@@ -52,12 +52,13 @@ board.on('ready', function() {
   // This requires OneWire support using the ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
-    pin: 2
+    pin: 2 // Digital pin
   });
 
   thermometer.on("change", function() {
     waterTemp = (this.fahrenheit.toFixed(1));
-    console.log("arduino: ", temp);
+
+    console.log("arduino: ", waterTemp);
     console.log("--------------------------------------");
   });
 
@@ -126,11 +127,19 @@ const path = require('path');
 
 const auth = require('./routes/auth');
 const me = require('./routes/me');
+<<<<<<< HEAD
 const sensors = require('./routes/sensors');
 
 app.use('/auth', auth);
 app.use('/api', me);
 app.use('/api', sensors);
+=======
+// const sensors = require('./routes/sensors');
+
+app.use('/auth', auth);
+app.use('/api', me);
+// app.use('/api', sensors);
+>>>>>>> style
 
 // CSRF protection
 app.use((req, res, next) => {
