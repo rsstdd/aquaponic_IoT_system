@@ -249,3 +249,51 @@ h1 h2 {
   margin-top: 1%;
   /*height: 500px;*/
 }
+
+.center-text {
+  padding-top: 5%;
+  padding-left: 10%;
+}
+.center-more {
+  padding-top: 7%;
+  padding-left: 10%;
+}
+.sub-center-text {
+  padding-top: 0%;
+  padding-left: 7%;
+  padding-bottom: 5%;
+  font-size: .75em;
+}
+.sub-center-text-more {
+  padding-top: 0%;
+  padding-left: 6%;
+  padding-bottom: 5%;
+  font-size: .75em;
+}
+
+.middle {
+  padding-top: 2%;
+  padding-left: 2%;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.first {
+  font-size: .5em;
+  padding-left: 12%;
+  padding-top: 0;
+}
+.mid {
+  font-size: .75em;
+  padding-left: 20%;
+  padding-top: 0;
+}
+.last {
+  font-size: .5em;
+  padding-left: 20%;
+  padding-top: 0;
+}

@@ -1,8 +1,9 @@
-import { Match, Redirect } from 'react-router';
+import { Match, Redirect, Miss } from 'react-router';
 import React from 'react';
 import axios from 'axios';
 import Dashboard from './Dashboard';
 import Landing from './Landing';
+import NotFound from './NotFound';
 import io from 'socket.io-client';
 
 const Main = React.createClass({
@@ -12,8 +13,17 @@ const Main = React.createClass({
       showModal: false,
       isLoggedIn: false,
       user: [],
-      data: []
+      data: [],
+      parts: []
     };
+  },
+
+  getCookie() {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+
+    this.setState({ parts: parts })
   },
 
   componentDidMount() {
@@ -21,7 +31,6 @@ const Main = React.createClass({
       .then((res) => {
         this.setState({
           isLoggedIn: true,
-          user: res.data
         });
       })
       .catch((err) => {
@@ -46,6 +55,7 @@ const Main = React.createClass({
   authenticateUser(email, password) {
     axios.post('api/me', { email, password })
     .then((res) => {
+      this.getCookie();
       this.setState({
         isLoggedIn: true,
         playerId: res.data.id,
@@ -106,6 +116,7 @@ const Main = React.createClass({
               />)
             )}
         />
+        <Miss component={NotFound} />
 
       </main>
     );

@@ -57,7 +57,7 @@ board.on('ready', function() {
 
   thermometer.on("change", function() {
     waterTemp = (this.fahrenheit.toFixed(1));
-    console.log("arduino: ", temp);
+    console.log("arduino: ", waterTemp);
     console.log("--------------------------------------");
   });
 
