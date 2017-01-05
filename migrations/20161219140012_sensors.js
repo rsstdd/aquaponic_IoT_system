@@ -3,8 +3,8 @@
 exports.up = (knex) => {
   return knex.schema.createTable('sensors', (table) => {
     table.increments();
-    table.integer('waterTemp').notNullable();
-    table.integer('airTemp').notNullable();
+    table.integer('water_temp').notNullable();
+    table.integer('air_temp').notNullable();
     table.integer('humidity').notNullable();
     table.timestamps(true, true);
   });

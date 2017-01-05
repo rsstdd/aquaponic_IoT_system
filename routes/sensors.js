@@ -29,20 +29,23 @@ router.get('/sensors', (_req, res, next) => {
     });
 });
 
-// ev(validations.post),
 router.post('/sensors', (req, res, next) => {
   /* eslint-disable max-len */
   const { waterTemp, airTemp, humidity } = req.body;
+  console.log(req.body);
 
   knex('sensors')
-    .insert({
+    .insert(decamelizeKeys({
       waterTemp: waterTemp,
       airTemp: airTemp,
       humidity: humidity
+    }), '*')
+    .catch((err) => {
+      next(err);
     });
 });
 
-router.get('/sensors/:id', authorize, (req, res, next) => {
+router.get('/sensors/:id', (req, res, next) => {
   const id = Number.parseInt(req.params.id);
 
   if (Number.isNaN(id)) {
