@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Main from './Main';
 import MyNav from './Nav';
-import { Button, Col, Modal, Grid, Image, Popover, Tooltip, OverlayTrigger, Well, Row, PageHeader, Jumbotron, Navbar } from 'react-bootstrap';
+import { Button, Col, Container, Modal, Grid, Image, Popover, Tooltip, OverlayTrigger, Well, Row, PageHeader, Jumbotron, Navbar } from 'react-bootstrap';
 import { Gauge } from 'react-mini-chart-components';
 
 const Dashboard = React.createClass({
@@ -17,28 +17,28 @@ const Dashboard = React.createClass({
         />
 
         <Grid fluid={true}>
-
           <Row>
-            <Col xs={12} md={6} lg={4}>
+            <Col lg={3} className="user">
+              <Image src={this.props.user.avatarUrl} responsive circle />
+              <p>Hello, {this.props.user.name}</p>
               <h5>System Status: Ok</h5>
             </Col>
-
-            <Col xs={12} md={6} lg={4}>
-              <Gauge type='half-gauge' value={parseInt(this.props.data)} color='#FA6900' width='.5em' />
-              <h5>Air Temp: {this.props.data} </h5>
+            <Col lg={3} className="water">
+              {/* parseInt(this.props.data) */}
+              <Gauge type='half-gauge' value={66} color='#FA6900' width='.5em' />
+              <h5>Water Temperature: {this.props.data} </h5>
             </Col>
 
-            <Col xs={12} md={6} lg={4}>
+            <Col lg={3} className="humid">
               <Gauge type='half-gauge' value={33} color='#FA6900' width='.5em' />
-              <h5 className="center">Relative Humidity:</h5>
+              <h5 >Relative Humidity:</h5>
             </Col>
 
-            <Col xs={12} md={6} lg={4}>
+            <Col lg={3} className="air">
               <Gauge type='half-gauge' value={90} color='#FA6900' width='.5em' />
               <h5>Air Temp:</h5>
             </Col>
           </Row>
-
         </Grid>
       </div>
     );

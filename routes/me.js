@@ -17,11 +17,12 @@ const authorize = function(req, res, next) {
 };
 
 router.get('/me', authorize, (req, res, next) => {
+  console.log('######### get/me #######');
   const { userId } = req.token;
   let user;
 
   knex('users')
-    .where('auth_id', userId)
+    .where('id', userId)
     .first()
     .then((row) => {
       if (!row) {

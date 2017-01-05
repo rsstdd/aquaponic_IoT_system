@@ -77,7 +77,7 @@ const Main = React.createClass({
   },
 
   render() {
-    console.log(this.state.data);
+    console.log(this.state.user);
     return (
       <main>
         <Match

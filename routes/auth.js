@@ -81,7 +81,6 @@ router.get('/google/callback',
 
 router.get('/logout', (req, res) => {
   const expiry = new Date(Date.now() + 1000 * 60 * 60 * 3);
-console.log('hello', res.cookie);
   res.cookie('loggedIn', 'false', { expires: expiry });
   res.clearCookie('token');
   res.clearCookie('user');
