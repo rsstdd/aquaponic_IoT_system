@@ -6,11 +6,6 @@ import axios from 'axios';
 import Main from './Main';
 
 const App = React.createClass({
-  getInitialState() {
-    return {
-      data: {}
-    };
-  },
 
   render() {
     return (

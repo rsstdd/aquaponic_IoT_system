@@ -32,7 +32,6 @@ const Main = React.createClass({
     const socket = io.connect('http://localhost:8080/');
 
     socket.on('temp', (data) => {
-      console.log('Incoming Data', data);
       this.setState({ data: data.temp });
     });
   },
@@ -78,6 +77,7 @@ const Main = React.createClass({
 
   render() {
     console.log(this.state.data);
+    console.log(this.state.user);
     return (
       <main>
         <Match
@@ -101,7 +101,7 @@ const Main = React.createClass({
               <Dashboard
                 handleLoginState={this.handleLoginState}
                 logOut={this.logOut}
-                {...this.state}
+                user={this.state.user}
                 data={this.state.data}
               />)
             )}

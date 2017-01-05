@@ -17,10 +17,9 @@ const MyNav = React.createClass({
     return (
       <div>
         <Navbar id="nav">
-
             <Navbar.Header>
               <Navbar.Brand>
-                <h1>ARDUINOPONICS <span id="orange">|</span> <span id="white">dashboard</span></h1>
+                <h1><span id="white">ARDUINOPONICS</span> <span id="orange">|</span> dashboard</h1>
               </Navbar.Brand>
             </Navbar.Header>
           <Nav pullRight>

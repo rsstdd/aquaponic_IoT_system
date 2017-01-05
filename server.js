@@ -50,7 +50,7 @@ board.on('ready', function() {
   // This requires OneWire support using the ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
-    pin: 2
+    pin: 2 // Digital pin
   });
 
   thermometer.on("change", function() {
