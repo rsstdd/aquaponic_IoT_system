@@ -12,8 +12,10 @@ const Main = React.createClass({
     return {
       showModal: false,
       isLoggedIn: false,
-      user: [],
+      waterTemp: [],
       data: [],
+      airTemp: [],
+      humidity: [],
       parts: []
     };
   },
@@ -27,22 +29,30 @@ const Main = React.createClass({
   },
 
   componentDidMount() {
-    axios.get('/api/me')
-      .then((res) => {
-        this.setState({
-          isLoggedIn: true,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ isLoggedIn: false });
-      });
+    // axios.get('/api/me')
+    //   .then((res) => {w
+    //     this.setState({
+    //       isLoggedIn: true,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.setState({ isLoggedIn: false });
+    //   });
 
     const socket = io.connect('http://localhost:8080/');
 
-    socket.on('temp', (data) => {
-      console.log('Incoming Data', data);
-      this.setState({ data: data.temp });
+    socket.on('waterTemp', (data) => {
+      // console.log('Incoming Data', data);
+      this.setState({ waterTemp: data.waterTemp });
+    });
+    socket.on('airTemp', (data) => {
+      // console.log('Incoming Data', data);
+      this.setState({ airTemp: data.airTemp });
+    });
+    socket.on('humidity', (data) => {
+      // console.log('Incoming Data', data);
+      this.setState({ humidity: data.humidity });
     });
   },
 
@@ -87,7 +97,9 @@ const Main = React.createClass({
   },
 
   render() {
-    console.log(this.state.user);
+    console.log(this.state.waterTemp);
+    console.log(this.state.airTemp);
+    console.log(this.state.humidity);
     return (
       <main>
         <Match
@@ -112,7 +124,6 @@ const Main = React.createClass({
                 handleLoginState={this.handleLoginState}
                 logOut={this.logOut}
                 {...this.state}
-                data={this.state.data}
               />)
             )}
         />

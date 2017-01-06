@@ -32,58 +32,69 @@ server.listen(8080);
 const socketIO = require('socket.io');
 const io = socketIO(server);
 
+console.log('______________________|===========|__________________________');
+console.log('______________________|--Arduino--|__________________________');
+console.log('______________________|===========|__________________________');
+
 const five = require('johnny-five');
-const board = new five.Board();
+const ports = [
+  { id: 'A', port: '/dev/cu.usbmodem1411' }, // this[1]
+  { id: 'B', port: '/dev/cu.usbmodem60' } // this[0]
+];
 
-  console.log('______________________|===========|__________________________');
-  console.log('______________________|--Arduino--|__________________________');
-  console.log('______________________|===========|__________________________');
+let waterTemp = 0;
+let airTemp = 0;
+let humidity = 0;
 
-  let waterTemp = 0;
-  // let airTemp = 0;
-  // let humidity = 0;
+// // '/dev/cu.usbmodem58', '/dev/cu.usbmodem1411'
+//['A', 'B']
+const boards = new five.Boards(['A', 'B']);
+
+boards.on('ready', function() {
+
+  //  board A - requires OneWire support w/ ConfigurableFirmata
+    const thermometer = new five.Thermometer({
+      controller: 'DS18B20',
+      pin: 2, // Digital pin
+      board: this.byId('A')
+    });
+
+  // console.log(this.byId('B'));
+  const multi = new five.Multi({
+    controller: 'BMP180',
+    board: this.byId('B')
+  });
+
+  // console.log(this.byId('A'));
+  // console.log(multi);
+  // console.log(thermometer);
 
   // --------------------------
   // Temperature Sensor
   // --------------------------
 
-board.on('ready', function() {
-  this.samplingInterval(1000);
-  // This requires OneWire support using the ConfigurableFirmata
-  const thermometer = new five.Thermometer({
-    controller: 'DS18B20',
-    pin: 2 // Digital pin
+  thermometer.on('change', function() {
+    waterTemp = this.fahrenheit.toFixed(1);
+
+    // console.log('arduino: ', waterTemp);
+    // console.log('--------------------------------------');
   });
 
-  thermometer.on("change", function() {
-    waterTemp = (this.fahrenheit.toFixed(1));
+    // ------------------------------
+    // Temperature & Humidity Sensor
+    // ------------------------------
 
-    console.log("arduino: ", waterTemp);
-    console.log("--------------------------------------");
+  multi.on('change', function() {
+    // console.log('temperature');
+    // console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
+    airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
+    // console.log('--------------------------------------');
+
+    // console.log('Barometer');
+    // console.log('pressure: ', this.barometer.pressure);
+    humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
+    console.log('--------------------------------------');
   });
-
-//   var multi = new five.Multi({
-//     controller: "BMP180"
-//   });
-//
-//   // --------------------------
-//   // Temperature & Humidity Sensor
-//   // --------------------------
-//
-//   multi.on("change", function() {
-//     console.log("fahrenheit: ", this.thermometer.fahrenheit);
-//     airTemp = (this.fahrenheit.toFixed(1));
-//     console.log("--------------------------------------");
-//
-//     console.log("Barometer");
-//     console.log("pressure: ", this.barometer.pressure);
-//     humidity = (this.fahrenheit.toFixed(1));
-//     console.log("--------------------------------------");
-//
-//     console.log("Altimeter");
-//     console.log("feet: ", this.altimeter.feet);
-//     console.log("--------------------------------------");
-//   });
 });
 
 // --------------------------
@@ -93,16 +104,18 @@ board.on('ready', function() {
 
 io.on('connection', (socket) => {
   const tm = setInterval(() => {
-    socket.emit('waterTemp', { 'temp': waterTemp });
-    // socket.emit('airTemp', { 'airTemp': airTemp });
-    // socket.emit('humidity', { 'humidity': humidity });
-    console.log('socket: ', waterTemp);
+    console.log('------------------SOCKET--------------------------');
+    socket.emit('waterTemp', { 'waterTemp': waterTemp });
+    socket.emit('airTemp', { 'airTemp': airTemp });
+    socket.emit('humidity', { 'humidity': humidity });
+    console.log('socket: H20', waterTemp);
+    console.log('socket: 02', airTemp);
+    console.log('socket: Rh', humidity);
   }, 5000);
 
   socket.on('disconnect', () => {
     clearInterval(tm);
   });
-  console.log('temp');
 });
 
 app.disable('x-powered-by');
@@ -127,19 +140,12 @@ const path = require('path');
 
 const auth = require('./routes/auth');
 const me = require('./routes/me');
-<<<<<<< HEAD
-const sensors = require('./routes/sensors');
-
-app.use('/auth', auth);
-app.use('/api', me);
-app.use('/api', sensors);
-=======
 // const sensors = require('./routes/sensors');
 
 app.use('/auth', auth);
 app.use('/api', me);
+
 // app.use('/api', sensors);
->>>>>>> style
 
 // CSRF protection
 app.use((req, res, next) => {
