@@ -43,17 +43,15 @@ let airTemp = 0;
 let humidity = 0;
 
 // // '/dev/cu.usbmodem58', '/dev/cu.usbmodem1411'
-//['A', 'B']
 const boards = new five.Boards(['A', 'B']).on('ready', function() {
   console.log('______________________|===========|__________________________');
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
-  console.log('########### Boards Ready #######');
 
 // const board = new five.Board();
 // board.on('ready', function() {
 
-  //  board A - requires OneWire support w/ ConfigurableFirmata
+  //  board B - requires OneWire support w/ ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
     pin: 2, // Digital pin
@@ -66,10 +64,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
     board: this.byId('A')
   });
 
-  // console.log(this.byId('A'));
-  // console.log(multi);
-  // console.log(thermometer);
-
   // --------------------------
   // Temperature Sensor
   // --------------------------
@@ -78,7 +72,7 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
     waterTemp = this.fahrenheit.toFixed(1);
 
     console.log('arduino: H20 ', waterTemp);
-    // console.log('--------------------------------------');
+    console.log('--------------------------------------');
   });
 
     // ------------------------------
@@ -87,26 +81,23 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
 
   multi.on('change', function() {
     console.log('arduino: 02 ', airTemp);
-    // console.log('temperature');
-    // console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
+    console.log('temperature');
+    console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
     airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
     console.log('--------------------------------------');
 
-    // console.log('Barometer');
-    // console.log('pressure: ', this.barometer.pressure);
     humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
-    // console.log('--------------------------------------');
+    console.log('--------------------------------------');
   });
 });
 
 // --------------------------
 // Socket.io
 // --------------------------
-// Used for streaming results
 
 io.on('connection', (socket) => {
   const tm = setInterval(() => {
-    console.log('------------------SOCKET--------------------------');
+    console.log('--------------------SOCKET--------------------------');
     socket.emit('waterTemp', { 'waterTemp': waterTemp });
     socket.emit('airTemp', { 'airTemp': airTemp });
     socket.emit('humidity', { 'humidity': humidity });
