@@ -32,10 +32,6 @@ server.listen(8080);
 const socketIO = require('socket.io');
 const io = socketIO(server);
 
-console.log('______________________|===========|__________________________');
-console.log('______________________|--Arduino--|__________________________');
-console.log('______________________|===========|__________________________');
-
 const five = require('johnny-five');
 const ports = [
   { id: 'A', port: '/dev/cu.usbmodem1411' }, // this[1]
@@ -48,21 +44,26 @@ let humidity = 0;
 
 // // '/dev/cu.usbmodem58', '/dev/cu.usbmodem1411'
 //['A', 'B']
-const boards = new five.Boards(['A', 'B']);
+const boards = new five.Boards(['A', 'B']).on('ready', function() {
+  console.log('______________________|===========|__________________________');
+  console.log('______________________|--Arduino--|__________________________');
+  console.log('______________________|===========|__________________________');
+  console.log('########### Boards Ready #######');
 
-boards.on('ready', function() {
+// const board = new five.Board();
+// board.on('ready', function() {
 
   //  board A - requires OneWire support w/ ConfigurableFirmata
-    const thermometer = new five.Thermometer({
-      controller: 'DS18B20',
-      pin: 2, // Digital pin
-      board: this.byId('A')
-    });
+  const thermometer = new five.Thermometer({
+    controller: 'DS18B20',
+    pin: 2, // Digital pin
+    board: this.byId('B')
+  });
 
   // console.log(this.byId('B'));
   const multi = new five.Multi({
     controller: 'BMP180',
-    board: this.byId('B')
+    board: this.byId('A')
   });
 
   // console.log(this.byId('A'));
@@ -76,7 +77,7 @@ boards.on('ready', function() {
   thermometer.on('change', function() {
     waterTemp = this.fahrenheit.toFixed(1);
 
-    // console.log('arduino: ', waterTemp);
+    console.log('arduino: H20 ', waterTemp);
     // console.log('--------------------------------------');
   });
 
@@ -85,15 +86,16 @@ boards.on('ready', function() {
     // ------------------------------
 
   multi.on('change', function() {
+    console.log('arduino: 02 ', airTemp);
     // console.log('temperature');
     // console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
     airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
-    // console.log('--------------------------------------');
+    console.log('--------------------------------------');
 
     // console.log('Barometer');
     // console.log('pressure: ', this.barometer.pressure);
     humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
-    console.log('--------------------------------------');
+    // console.log('--------------------------------------');
   });
 });
 

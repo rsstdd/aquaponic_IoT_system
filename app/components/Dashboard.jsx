@@ -20,7 +20,7 @@ const Dashboard = React.createClass({
           <Row className="middle">
             <Col xs={4} className="water">
               {/* parseInt(this.props.data) */}
-              <Gauge type='half-gauge' value={parseInt(this.props.waterTemp)} color='#FA6900' width='.5em' />
+              <Gauge type='half-gauge' value={parseInt(this.props.waterTemp)} color='#FA6900' width='.75em' />
               <p><span className="first">0</span><span className="mid">&deg; F</span><span className="last">100</span></p>
               <h4 className="center-text">Water Temperature: {this.props.waterTemp}&deg; F</h4>
             </Col>
@@ -34,7 +34,7 @@ const Dashboard = React.createClass({
             <Col xs={4} className="air">
               <Gauge type='half-gauge' value={this.props.airTemp} color='#FA6900' width='.5em' />
               <p><span className="first">0</span><span className="mid">&deg; F</span><span className="last">100</span></p>
-              <h4 className="center-more"> Air Temp: {this.props.airTemp}&deg; F</h4>
+              <h4 className="center-more"> Air Temperature: {this.props.airTemp}&deg; F</h4>
             </Col>
           </Row>
           <Row>
