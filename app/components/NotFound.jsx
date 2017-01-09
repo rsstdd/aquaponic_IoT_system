@@ -4,7 +4,7 @@ const NotFound = React.createClass({
   render() {
     return (
       <main>
-        Lost in space...
+        Page Not Found
       </main>
     );
   }

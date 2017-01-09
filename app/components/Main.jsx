@@ -1,10 +1,10 @@
-import { Match, Redirect, Miss } from 'react-router';
-import React from 'react';
+import { Match, Miss, Redirect } from 'react-router';
 import axios from 'axios';
 import Dashboard from './Dashboard';
+import io from 'socket.io-client';
 import Landing from './Landing';
 import NotFound from './NotFound';
-import io from 'socket.io-client';
+import React from 'react';
 
 const Main = React.createClass({
 
@@ -20,38 +20,27 @@ const Main = React.createClass({
     };
   },
 
-  getCookie() {
-    let value = "; " + document.cookie;
-    let parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
-
-    this.setState({ parts: parts })
-  },
-
   componentDidMount() {
-    // axios.get('/api/me')
-    //   .then((res) => {w
-    //     this.setState({
-    //       isLoggedIn: true,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({ isLoggedIn: false });
-    //   });
+    axios.get('/api/me')
+      .then((res) => {
+        this.setState({
+          isLoggedIn: true
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ isLoggedIn: false });
+      });
 
     const socket = io.connect('http://localhost:8080/');
 
     socket.on('waterTemp', (data) => {
-      // console.log('Incoming Data', data);
       this.setState({ waterTemp: data.waterTemp });
     });
     socket.on('airTemp', (data) => {
-      // console.log('Incoming Data', data);
       this.setState({ airTemp: data.airTemp });
     });
     socket.on('humidity', (data) => {
-      // console.log('Incoming Data', data);
       this.setState({ humidity: data.humidity });
     });
   },
@@ -62,29 +51,13 @@ const Main = React.createClass({
     });
   },
 
-  authenticateUser(email, password) {
-    axios.post('api/me', { email, password })
-    .then((res) => {
-      this.getCookie();
-      this.setState({
-        isLoggedIn: true,
-        playerId: res.data.id,
-        user: res.data
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },
-
   logOut() {
-    console.log('Main');
     axios.get('/auth/logout')
     .then((res) => {
       this.setState({
         isLoggedIn: false,
         user: []
-      })
+      });
     });
   },
 
@@ -97,9 +70,6 @@ const Main = React.createClass({
   },
 
   render() {
-    console.log(this.state.waterTemp);
-    console.log(this.state.airTemp);
-    console.log(this.state.humidity);
     return (
       <main>
         <Match

@@ -10,15 +10,21 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const http = require('http');
-
-const server = http.createServer(app);
-
+const path = require('path');
+const flash = require('connect-flash');
+const twilioNotifications = require('./middleware/twilioNotifications');
 const passport = require('passport');
+const server = http.createServer(app);
+server.listen(8080);
+const socketIO = require('socket.io');
+const io = socketIO(server);
+const five = require('johnny-five');
+const twilioClient = require('./twilioClient');
+
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Arduino board connection
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -27,16 +33,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
-
-server.listen(8080);
-const socketIO = require('socket.io');
-const io = socketIO(server);
-
-const five = require('johnny-five');
-const ports = [
-  { id: 'A', port: '/dev/cu.usbmodem1411' }, // this[1]
-  { id: 'B', port: '/dev/cu.usbmodem60' } // this[0]
-];
 
 let waterTemp = 0;
 let airTemp = 0;
@@ -48,9 +44,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
 
-// const board = new five.Board();
-// board.on('ready', function() {
-
   //  board B - requires OneWire support w/ ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
@@ -58,7 +51,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
     board: this.byId('B')
   });
 
-  // console.log(this.byId('B'));
   const multi = new five.Multi({
     controller: 'BMP180',
     board: this.byId('A')
@@ -90,6 +82,16 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
     console.log('--------------------------------------');
   });
 });
+
+// --------------------------
+// Twilio
+// --------------------------
+
+// setInterval(() => {
+//   if (waterTemp <= 60 || waterTemp >= 80) {
+//     twilioClient.sendSms();
+//   }
+// }, 10000);
 
 // --------------------------
 // Socket.io
@@ -125,20 +127,17 @@ switch (app.get('env')) {
   default:
 }
 
-// app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(twilioNotifications.notifyOnError);
 
-const path = require('path');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const auth = require('./routes/auth');
 const me = require('./routes/me');
-// const sensors = require('./routes/sensors');
 
 app.use('/auth', auth);
 app.use('/api', me);
-
-// app.use('/api', sensors);
 
 // CSRF protection
 app.use((req, res, next) => {
