@@ -16,7 +16,7 @@ const Dashboard = React.createClass({
           logOut={this.props.logOut}
         />
 
-        <Grid fluid={true}>
+        {/* <Grid fluid={true}> */}
           <Row className="middle">
             <Col xs={4} className="water">
               {/* parseInt(this.props.data) */}
@@ -38,25 +38,25 @@ const Dashboard = React.createClass({
             </Col>
           </Row>
           <Row>
-            <Col xs={4} className="sub-center-text">
+            <Col xs={4} className="sub-center-text, water">
               <p>Optimial Tank Temperature: 78-80F</p>
             </Col>
 
-            <Col xs={4} className="sub-center-text">
+            <Col xs={4} className="sub-center-text, humid">
               <p>Optimial Relative Humididty: ~90 @ 80F</p>
             </Col>
 
-            <Col xs={4} className="sub-center-text-more">
+            <Col xs={4} className="sub-center-text-more, air">
               <p>Optimial Air Temperature: 40-80</p>
             </Col>
           </Row>
 
-          <Row className="bottom, user">
-            <Col xs={12} className="user">
+          <Row className="user">
+            <Col xs={12} className="status">
               <h4>System Status: Ok</h4>
             </Col>
           </Row>
-        </Grid>
+        {/* </Grid> */}
       </div>
     );
   }

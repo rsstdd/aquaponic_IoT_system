@@ -239,17 +239,7 @@ h1 h2 {
 }
 
 /* ------------ Dashboard -----------*/
-/* ------- Greet Section --------*/
-.user {
-  background-color: #384745;
-  /*#384745;*/
-  /*#737e7c/*/
-  color: #EFDFA7;
-  padding: 3%;
-  margin-top: 1%;
-  /*height: 500px;*/
-}
-
+/* -------  Section --------*/
 .center-text {
   padding-top: 5%;
   padding-left: 5%;
@@ -262,38 +252,58 @@ h1 h2 {
   padding-top: 0%;
   padding-left: 7%;
   padding-bottom: 5%;
-  font-size: .75em;
+  font-size: 1em;
 }
 .sub-center-text-more {
   padding-top: 0%;
   padding-left: 6%;
   padding-bottom: 5%;
-  font-size: .75em;
+  font-size: 1em;
 }
 
 .middle {
+  height: 50vh;
   padding-top: 2%;
-  padding-left: 3%;
+  /*padding-left: 3%;*/
+  font-size: 1em;
 }
-
-.bottom {
-  position: fixed;
+.user {
+  background-color: #3A4947;
+  color: #fff;
+  padding: 5%;
+  margin-top: 1%;
+  position: absolute;;
   bottom: 0;
   width: 100%;
+  height: 10%;
+  width: 105%;
+  overflow: hidden;
 }
-
+.status{
+  padding-bottom: 2%;
+}
 .first {
   font-size: .5em;
   padding-left: 12%;
   padding-top: 0;
+  font-size: 1em;
 }
 .mid {
-  font-size: .75em;
+  font-size: 1em;
   padding-left: 20%;
   padding-top: 0;
 }
 .last {
-  font-size: .5em;
+  font-size: 1em;
   padding-left: 20%;
   padding-top: 0;
+}
+.water {
+  background-color: #545958;
+}
+.humid {
+  background-color: #3b3b3e;
+}
+.air {
+  background-color: #514e46;
 }
