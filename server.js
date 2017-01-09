@@ -15,7 +15,9 @@ const flash = require('connect-flash');
 const twilioNotifications = require('./middleware/twilioNotifications');
 const passport = require('passport');
 const server = http.createServer(app);
+
 server.listen(8080);
+
 const socketIO = require('socket.io');
 const io = socketIO(server);
 const five = require('johnny-five');
@@ -127,7 +129,7 @@ switch (app.get('env')) {
   default:
 }
 
-// app.use(twilioNotifications.notifyOnError);
+app.use(twilioNotifications.notifyOnError);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
