@@ -86,14 +86,14 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
 });
 
 // --------------------------
-// Twilio
+// Twilio SMS Alert
 // --------------------------
 
 // setInterval(() => {
 //   if (waterTemp <= 60 || waterTemp >= 80) {
 //     twilioClient.sendSms();
 //   }
-// }, 10000);
+// }, 18000);
 
 // --------------------------
 // Socket.io

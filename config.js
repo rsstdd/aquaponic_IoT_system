@@ -1,16 +1,10 @@
 'use strict';
 const cfg = {};
 
-// Your Twilio account SID and auth token, both found at:
-// https://www.twilio.com/user/account
-//
-// A good practice is to store these string values as system environment
-// constiables, and load them from there as we are doing below. Alternately,
-// you could hard code these values here as strings.
 cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
 cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
-cfg.sendingNumber = +9852289102;
-cfg.toNumber = +2064866588;
+cfg.sendingNumber = process.env.TWILIO_NUMBER; // +9852289102;
+cfg.toNumber = process.env.TWILIO_TO_NUMBER; // +2064866588;
 
 const requiredConfig = [cfg.accountSid, cfg.authToken, cfg.sendingNumber];
 const isConfigured = requiredConfig.every((configValue) => {
