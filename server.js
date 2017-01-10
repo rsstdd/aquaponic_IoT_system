@@ -46,15 +46,12 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
 
-
-// const board = new five.Board();
-// board.on('ready', function() {
   //  board B - requires OneWire support w/ ConfigurableFirmata
-  const thermometer = new five.Thermometer({
-    controller: 'DS18B20',
-    pin: 1, // Digital pin
-    board: this.byId('B')
-  });
+  // const thermometer = new five.Thermometer({
+  //   controller: 'DS18B20',
+  //   pin: 1, // Digital pin
+  //   board: this.byId('B')
+  // });
 
   const multi = new five.Multi({
     controller: 'BMP180',
@@ -65,12 +62,12 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   // Temperature Sensor
   // --------------------------
 
-  thermometer.on('change', function() {
-    waterTemp = this.fahrenheit.toFixed(1);
-
-    console.log('arduino: H20 ', waterTemp);
-    console.log('--------------------------------------');
-  });
+  // thermometer.on('change', function() {
+  //   waterTemp = this.fahrenheit.toFixed(1);
+  //
+  //   console.log('arduino: H20 ', waterTemp);
+  //   console.log('--------------------------------------');
+  // });
 
   // ------------------------------
   // Temperature & Humidity Sensor
@@ -79,7 +76,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   multi.on('change', function() {
     console.log('arduino: 02 ', airTemp);
     console.log('temperature');
-    console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
     airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
     console.log('--------------------------------------');
 
@@ -87,16 +83,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
     console.log('--------------------------------------');
   });
 });
-
-// --------------------------
-// Twilio SMS Alert
-// --------------------------
-
-setInterval(() => {
-  if (waterTemp <= 60 || waterTemp >= 80) {
-    twilioClient.sendSms();
-  }
-}, 18000);
 
 // --------------------------
 // Socket.io
@@ -117,6 +103,21 @@ io.on('connection', (socket) => {
     clearInterval(tm);
   });
 });
+
+// --------------------------
+// Twilio SMS Alert
+// --------------------------
+
+setInterval(() => {
+  let count = [];
+
+  if (waterTemp <= 60 || waterTemp >= 80) {
+    count++;
+  }
+  if (count.length >= 1) {
+    twilioClient.sendSms();
+  }
+}, 200000);
 
 app.disable('x-powered-by');
 

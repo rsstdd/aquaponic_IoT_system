@@ -17,7 +17,9 @@ const Main = React.createClass({
       airTemp: [],
       humidity: [],
       parts: [],
-      systemStatus: ''
+      systemStatus: '',
+      color: '#FA6900',
+      textColor: ''
     };
   },
 
@@ -45,11 +47,21 @@ const Main = React.createClass({
       this.setState({ humidity: data.humidity });
     });
 
-    if (this.state.waterTemp >= 60 && this.state.waterTemp >= 80) {
+    if (this.state.waterTemp >= 74 && this.state.waterTemp >= 80) {
       this.setState({ systemStatus: 'Ok' });
     } else if (this.state.waterTemp <= 60 || this.state.waterTemp >= 80) {
-      this.setState({ systemStatus: 'Alert' })
+      this.setState({ systemStatus: 'Alert' });
     }
+    //
+    // if (this.state.airTemp >= 60 && this.state.airTemp <= 80) {
+    //   this.setState({ systemStatus: 'Ok' });
+    //   this.setState({ airColor: '#FA6900' });
+    // } else if (this.state.airTemp <= 60 || this.state.airTemp >= 80) {
+    //   this.setState({ systemStatus: 'Alert' });
+    //   this.setState({ airColor: '#990000' });
+    // }
+
+    this.state.systemStatus === 'Alert' ? this.setState({ textColor: 'green' }) : this.setState({ textColor: 'red' })
   },
 
   updateAuth() {

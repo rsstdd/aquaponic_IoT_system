@@ -225,7 +225,7 @@ h1 h2 {
 #nav {
   color: #FA6900;
   /*border:*/
-  background-color: #cccccc;
+  background-color: #bfbfbf;
 }
 
 #orange {
@@ -237,13 +237,12 @@ h1 h2 {
 }
 
 /* ------------ Dashboard -----------*/
-/* -------  Section --------*/
+/* -------  Middle Section --------*/
 .center-text {
   padding-top: .7%;
   padding-left: 20%;
 }
 .center-more {
-  /*padding-top: 2%;*/
   padding-left: 15%;
 }
 .sub-center-text {
@@ -260,10 +259,8 @@ h1 h2 {
 }
 
 .middle {
-  /*height: 75vh;*/
   padding-top: 5%;
   padding-left: 1%;
-  /*margin-left: 10%;*/
   font-size: 1em;
 }
 .user {
@@ -289,7 +286,7 @@ h1 h2 {
 }
 .mid {
   font-size: 1em;
-  padding-left: 20%;
+  padding-left: 23%;
   padding-top: 0;
 }
 .last {
@@ -297,42 +294,40 @@ h1 h2 {
   padding-left: 24%;
   padding-top: 0;
 }
-.gauge {
-  padding-left: 10%;
-}
 
-/*.water {
-  background-color: #545958;
-}
-.humid {
-  background-color: #3b3b3e;
-}
-.air {
-  background-color: #514e46;
-}*/
+/* ------------ Dashboard -----------*/
+/* -------  Card --------*/
 .card {
+  background-color: #f2f2f2;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   height: 300px;
   width: 450px;
   margin: 1%;
   padding-top: .5%;
-  padding-left: 1.5%;
+  padding-left: 2.3%;
   padding-bottom: 1.5%;
 }
-
-/* On mouse-over, add a deeper shadow */
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-
-/* Add some padding inside the card container */
 .box {
     padding: 2px 16px;
 }
 
+/* ------------ Dashboard -----------*/
+/* -------  Gauge --------*/
 .react-mini-chart.radial-gauge {
   width: 25em !important;
   height: auto;
   padding-left: 6% !important;
+}
+.gauge {
+  padding-left: 12%;
+}
+.green {
+  color: #2a503e;
+}
+.red {
+  color: #990000;
 }

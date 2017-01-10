@@ -10,18 +10,16 @@ import { Gauge } from 'react-mini-chart-components';
 const Dashboard = React.createClass({
 
   render() {
-    console.log(this.props.systemStatus);
     return (
       <div className="content">
         <MyNav
           logOut={this.props.logOut}
         />
 
-        {/* <Grid fluid={true}> */}
           <Row className="middle">
             <Col xs={3} className="water, card">
               {/* parseInt(this.props.data) */}
-              <Gauge className="gauge" type='half-gauge' value={80} color='#FA6900' width='.75em' />
+              <Gauge className="gauge" type='half-gauge' value={80} color="#FA6900" width='1em' />
               <div className="box">
                 <p><span className="first">0</span><span className="mid">&deg; F</span><span className="last">100</span></p>
                 <div className="center-text">
@@ -33,7 +31,7 @@ const Dashboard = React.createClass({
 
             <Col xs={3} className="humid, card">
               {/* {this.props.humidity} */}
-              <Gauge type='half-gauge' value={100} color='#FA6900' width='.75em' />
+              <Gauge type='half-gauge' value={this.props.humidity} color="#FA6900" width='1em' />
               <div className="box">
                 <p><span className="first">0</span><span className="mid">%RH</span><span className="last">100</span></p>
                 <div>
@@ -45,7 +43,7 @@ const Dashboard = React.createClass({
 
             <Col xs={3} className="air, card">
               {/* {this.props.airTemp} */}
-              <Gauge type='half-gauge' value={70} color='#FA6900' width='.75em' />
+              <Gauge type='half-gauge' value={this.props.airTemp} color="#FA6900" width='1em' />
               <div className="box">
                 <p><span className="first">0</span><span className="mid">&deg; F</span><span className="last">100</span></p>
                 <div className="center-text">
@@ -58,11 +56,9 @@ const Dashboard = React.createClass({
 
         <Row className="user">
           <Col xs={12} className="status">
-            <h4>System Status: {this.props.systemStatus}</h4>
+            <h3>System Status: <span className={this.props.textColor}>{this.props.systemStatus}</span></h3>
           </Col>
         </Row>
-        {/* <Footer></Footer> */}
-        {/* </Grid> */}
       </div>
     );
   }
