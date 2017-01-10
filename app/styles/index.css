@@ -300,6 +300,7 @@ h1 h2 {
 .gauge {
   padding-left: 10%;
 }
+
 /*.water {
   background-color: #545958;
 }
@@ -333,5 +334,5 @@ h1 h2 {
 .react-mini-chart.radial-gauge {
   width: 25em !important;
   height: auto;
-  padding-left: 6%;
+  padding-left: 6% !important;
 }

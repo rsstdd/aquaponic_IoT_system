@@ -16,7 +16,8 @@ const Main = React.createClass({
       data: [],
       airTemp: [],
       humidity: [],
-      parts: []
+      parts: [],
+      systemStatus: ''
     };
   },
 
@@ -43,6 +44,12 @@ const Main = React.createClass({
     socket.on('humidity', (data) => {
       this.setState({ humidity: data.humidity });
     });
+
+    if (this.state.waterTemp >= 60 && this.state.waterTemp >= 80) {
+      this.setState({ systemStatus: 'Ok' });
+    } else if (this.state.waterTemp <= 60 || this.state.waterTemp >= 80) {
+      this.setState({ systemStatus: 'Alert' })
+    }
   },
 
   updateAuth() {

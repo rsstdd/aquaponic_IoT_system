@@ -4,12 +4,13 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Main from './Main';
 import MyNav from './Nav';
-import { Button, Col, Container, Modal, Grid, Image, Popover, Tooltip, OverlayTrigger, Well, Row, PageHeader, Jumbotron, Navbar } from 'react-bootstrap';
+import { Button, Col, Container, Modal, Grid, Image, Popover, Tooltip, OverlayTrigger, Footer, Well, Row, PageHeader, Jumbotron, Navbar } from 'react-bootstrap';
 import { Gauge } from 'react-mini-chart-components';
 
 const Dashboard = React.createClass({
 
   render() {
+    console.log(this.props.systemStatus);
     return (
       <div className="content">
         <MyNav
@@ -55,11 +56,12 @@ const Dashboard = React.createClass({
             </Col>
           </Row>
 
-          <Row className="user">
-            <Col xs={12} className="status">
-              <h4>System Status: Ok</h4>
-            </Col>
-          </Row>
+        <Row className="user">
+          <Col xs={12} className="status">
+            <h4>System Status: {this.props.systemStatus}</h4>
+          </Col>
+        </Row>
+        {/* <Footer></Footer> */}
         {/* </Grid> */}
       </div>
     );

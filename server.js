@@ -41,25 +41,25 @@ let airTemp = 0;
 let humidity = 0;
 
 // // '/dev/cu.usbmodem58', '/dev/cu.usbmodem1411'
-// const boards = new five.Boards(['A', 'B']).on('ready', function() {
+const boards = new five.Boards(['A', 'B']).on('ready', function() {
   console.log('______________________|===========|__________________________');
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
 
 
-const board = new five.Board();
-board.on('ready', function() {
+// const board = new five.Board();
+// board.on('ready', function() {
   //  board B - requires OneWire support w/ ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
-    pin: 1 // Digital pin
-    // board: this.byId('B')
+    pin: 1, // Digital pin
+    board: this.byId('B')
   });
 
-  // const multi = new five.Multi({
-  //   controller: 'BMP180',
-  //   board: this.byId('A')
-  // });
+  const multi = new five.Multi({
+    controller: 'BMP180',
+    board: this.byId('A')
+  });
 
   // --------------------------
   // Temperature Sensor
@@ -76,27 +76,27 @@ board.on('ready', function() {
   // Temperature & Humidity Sensor
   // ------------------------------
 
-  // multi.on('change', function() {
-  //   console.log('arduino: 02 ', airTemp);
-  //   console.log('temperature');
-  //   console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
-  //   airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
-  //   console.log('--------------------------------------');
-  //
-  //   humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
-  //   console.log('--------------------------------------');
-  // });
+  multi.on('change', function() {
+    console.log('arduino: 02 ', airTemp);
+    console.log('temperature');
+    console.log('fahrenheit: ', this.temperature.fahrenheit + 40);
+    airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
+    console.log('--------------------------------------');
+
+    humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
+    console.log('--------------------------------------');
+  });
 });
 
 // --------------------------
 // Twilio SMS Alert
 // --------------------------
 
-// setInterval(() => {
-//   if (waterTemp <= 60 || waterTemp >= 80) {
-//     twilioClient.sendSms();
-//   }
-// }, 18000);
+setInterval(() => {
+  if (waterTemp <= 60 || waterTemp >= 80) {
+    twilioClient.sendSms();
+  }
+}, 18000);
 
 // --------------------------
 // Socket.io
