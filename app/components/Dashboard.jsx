@@ -18,8 +18,8 @@ const Dashboard = React.createClass({
 
           <Row className="middle">
             <Col xs={3} className="water, card">
-              {/* parseInt(this.props.data) */}
-              <Gauge className="gauge" type='half-gauge' value={80} color="#FA6900" width='1em' />
+              {/* parseInt(this.props.waterTemp) */}
+              <Gauge className="gauge" type='half-gauge' value={parseInt(this.props.waterTemp)} color="#FA6900" width='1em' />
               <div className="box">
                 <p><span className="first">0</span><span className="mid">&deg; F</span><span className="last">100</span></p>
                 <div className="center-text">
