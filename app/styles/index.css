@@ -222,6 +222,9 @@ h1 h2 {
 .nav {
   padding-top: 2vh;
 }
+.navbar-brand h1 {
+  font-size: 70px;
+}
 #nav {
   color: #FA6900;
   /*border:*/

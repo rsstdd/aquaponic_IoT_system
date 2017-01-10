@@ -47,7 +47,7 @@ const Main = React.createClass({
       this.setState({ humidity: data.humidity });
     });
 
-    if (this.state.waterTemp >= 74 && this.state.waterTemp >= 80) {
+    if (this.state.waterTemp >= 70 && this.state.waterTemp <= 80) {
       this.setState({ systemStatus: 'Ok' });
     } else if (this.state.waterTemp <= 60 || this.state.waterTemp >= 80) {
       this.setState({ systemStatus: 'Alert' });
