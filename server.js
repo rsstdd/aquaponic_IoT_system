@@ -40,18 +40,17 @@ let waterTemp = 0;
 let airTemp = 0;
 let humidity = 0;
 
-// // '/dev/cu.usbmodem58', '/dev/cu.usbmodem1411'
 const boards = new five.Boards(['A', 'B']).on('ready', function() {
   console.log('______________________|===========|__________________________');
   console.log('______________________|--Arduino--|__________________________');
   console.log('______________________|===========|__________________________');
 
   //  board B - requires OneWire support w/ ConfigurableFirmata
-  // const thermometer = new five.Thermometer({
-  //   controller: 'DS18B20',
-  //   pin: 1, // Digital pin
-  //   board: this.byId('B')
-  // });
+  const thermometer = new five.Thermometer({
+    controller: 'DS18B20',
+    pin: 1, // Digital pin
+    board: this.byId('B')
+  });
 
   const multi = new five.Multi({
     controller: 'BMP180',
@@ -62,12 +61,12 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   // Temperature Sensor
   // --------------------------
 
-  // thermometer.on('change', function() {
-  //   waterTemp = this.fahrenheit.toFixed(1);
-  //
-  //   console.log('arduino: H20 ', waterTemp);
-  //   console.log('--------------------------------------');
-  // });
+  thermometer.on('change', function() {
+    waterTemp = this.fahrenheit.toFixed(1);
+
+    console.log('arduino: H20 ', waterTemp);
+    console.log('--------------------------------------');
+  });
 
   // ------------------------------
   // Temperature & Humidity Sensor

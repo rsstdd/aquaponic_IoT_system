@@ -18,5 +18,4 @@ if (!isConfigured) {
   throw new Error(errorMessage);
 }
 
-// Export configuration object
 module.exports = cfg;

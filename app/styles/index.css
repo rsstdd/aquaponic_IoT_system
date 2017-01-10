@@ -227,7 +227,6 @@ h1 h2 {
 }
 #nav {
   color: #FA6900;
-  /*border:*/
   background-color: #bfbfbf;
 }
 
@@ -266,21 +265,6 @@ h1 h2 {
   padding-left: 1%;
   font-size: 1em;
 }
-.user {
-  background-color: #3A4947;
-  color: #fff;
-  padding: 5%;
-  margin-top: 1%;
-  position: absolute;;
-  bottom: 0;
-  width: 100%;
-  height: 10%;
-  width: 105%;
-  overflow: hidden;
-}
-.status{
-  padding-bottom: 2%;
-}
 .first {
   font-size: .5em;
   padding-left: 15%;
@@ -296,6 +280,24 @@ h1 h2 {
   font-size: 1em;
   padding-left: 24%;
   padding-top: 0;
+}
+
+/* ------------ Dashboard -----------*/
+/* -------  Footer --------*/
+.status{
+  padding-bottom: 2%;
+}
+.user {
+  background-color: #3A4947;
+  color: #fff;
+  padding: 5%;
+  margin-top: 1%;
+  position: absolute;;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  width: 105%;
+  overflow: hidden;
 }
 
 /* ------------ Dashboard -----------*/
