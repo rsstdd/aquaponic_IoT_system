@@ -48,7 +48,7 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   //  board B - requires OneWire support w/ ConfigurableFirmata
   const thermometer = new five.Thermometer({
     controller: 'DS18B20',
-    pin: 1, // Digital pin
+    pin: 2, // Digital pin
     board: this.byId('B')
   });
 
@@ -63,9 +63,6 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
 
   thermometer.on('change', function() {
     waterTemp = this.fahrenheit.toFixed(1);
-
-    console.log('arduino: H20 ', waterTemp);
-    console.log('--------------------------------------');
   });
 
   // ------------------------------
@@ -73,15 +70,24 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
   // ------------------------------
 
   multi.on('change', function() {
-    console.log('arduino: 02 ', airTemp);
-    console.log('temperature');
     airTemp = (this.temperature.fahrenheit + 40).toFixed(1);
-    console.log('--------------------------------------');
-
-    humidity = ((this.barometer.pressure * 200 + 40).toFixed(1));
-    console.log('--------------------------------------');
+    humidity = ((this.barometer.pressure * 200 + 15).toFixed(1));
   });
 });
+
+  // --------------------------
+  // Twilio SMS Alert
+  // --------------------------
+
+setInterval(() => {
+  let count = 0;
+  if (waterTemp <= 60 || waterTemp >= 80) {
+    count += 1;
+  }
+  if (count === 1) {
+    twilioClient.sendSms();
+  }
+}, 60000);
 
 // --------------------------
 // Socket.io
@@ -102,21 +108,6 @@ io.on('connection', (socket) => {
     clearInterval(tm);
   });
 });
-
-// --------------------------
-// Twilio SMS Alert
-// --------------------------
-
-setInterval(() => {
-  let count = [];
-
-  if (waterTemp <= 60 || waterTemp >= 80) {
-    count++;
-  }
-  if (count.length >= 1) {
-    twilioClient.sendSms();
-  }
-}, 200000);
 
 app.disable('x-powered-by');
 

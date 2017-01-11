@@ -30,7 +30,7 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
 ## Next Steps:
  * Add DO, and Ph sensor
  * Expand system to include larger volume of grow media and water
- * Add relays to control lights
+ * Add relays to control lights and pump
  * Persist sample system data - graphically display system status over time
  * Incorporate an image in system alert MMS
 
