@@ -36,3 +36,5 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
 
 
 * Aquaponics - a system of aquaculture in which the waste produced by farmed fish or other aquatic animals supplies nutrients for plants grown hydroponically, which in turn purifies the water
+
+![Dashboard](./READMEIMG/dashboard.png)
