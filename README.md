@@ -4,7 +4,7 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
 
 ![Landing Page](./READMEIMG/oAuth.gif)
 ![Dashboard](./READMEIMG/temp.gif)
-![Alert!](./READMEIMG/system-alert.png)
+![Alert!](./READMEIMG/alert.png)
 
 ## Tech Used:
 * Node.js
