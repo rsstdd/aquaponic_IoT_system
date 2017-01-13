@@ -2,7 +2,8 @@
 
 Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspberry Pi and an Arduino with environmental sensors to collect data from the system before displaying that data through a web browser interface via Socket.io. Additionally, I use Twilio to notify the system administrator through text messaging if the system is operating outside of specific parameters.
 
-![Landing Page](./READMEIMG/landing.png)
+![Landing Page](./READMEIMG/oAuth.gif)
+![Dashboard](./READMEIMG/temp.gif)
 
 ## Tech Used:
 * Node.js
@@ -36,5 +37,3 @@ Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspb
 
 
 * Aquaponics - a system of aquaculture in which the waste produced by farmed fish or other aquatic animals supplies nutrients for plants grown hydroponically, which in turn purifies the water
-
-![Dashboard](./READMEIMG/dashboard.png)

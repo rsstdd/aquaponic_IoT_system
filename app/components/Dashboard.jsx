@@ -19,11 +19,9 @@ const Dashboard = React.createClass({
   componentDidMount() {
     setInterval(() => {
       if (this.props.waterTemp >= 70 && this.props.waterTemp <= 80) {
-        this.setState({ systemStatus: 'Ok' });
-        this.setState({ waterColor: '#FA6900' });
+        this.setState({ systemStatus: 'Ok', waterColor: '#FA6900' });
       } else if (this.props.waterTemp <= 60 || this.props.waterTemp >= 80) {
-        this.setState({ systemStatus: 'Alert' });
-        this.setState({ waterColor: '#990000' });
+        this.setState({ systemStatus: 'Alert', waterColor: '#990000' });
       }
 
       if (this.props.airTemp >= 60 && this.props.airTemp <= 80) {

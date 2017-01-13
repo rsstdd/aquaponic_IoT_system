@@ -331,7 +331,8 @@ h1 h2 {
   padding-left: 12%;
 }
 .green {
-  color: #002400;
+  /*color: #002400;*/
+  color: green;
 }
 .red {
   color: #c26666;
