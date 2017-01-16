@@ -1,5 +1,8 @@
 # ARDUINOPONICS
-[Watch Presentation Here: ](https://vimeo.com/199372835)
+[Watch Presentation Here ](https://vimeo.com/199372835)
+
+***
+
 Arduinoponics is a prototype of an automated aquaponics* system. It uses a Raspberry Pi and an Arduino with environmental sensors to collect data from the system before displaying that data through a web browser interface via Socket.io. Additionally, I use Twilio to notify the system administrator through text messaging if the system is operating outside of specific parameters.
 
 ![Landing Page](./READMEIMG/oAuth.gif)
