@@ -18,7 +18,9 @@ const Main = React.createClass({
       humidity: [],
       parts: [],
       color: '#FA6900',
-      textColor: ''
+      textColor: '',
+      systemStatus: '',
+      airColor: ''
     };
   },
 
@@ -38,13 +40,29 @@ const Main = React.createClass({
 
     socket.on('waterTemp', (data) => {
       this.setState({ waterTemp: data.waterTemp });
+
+      if (this.props.waterTemp >= 70 && this.props.waterTemp <= 80) {
+        this.setState({ systemStatus: 'Ok', waterColor: '#FA6900' });
+      } else if (this.props.waterTemp <= 60 || this.props.waterTemp >= 80) {
+        this.setState({ systemStatus: 'Alert', waterColor: '#990000' });
+      }
     });
+
     socket.on('airTemp', (data) => {
       this.setState({ airTemp: data.airTemp });
+
+      if (this.props.airTemp >= 60 && this.props.airTemp <= 80) {
+        this.setState({ airColor: '#FA6900' });
+      } else if (this.props.airTemp <= 60 || this.props.airTemp >= 80) {
+        this.setState({ airColor: '#990000' });
+      }
     });
+
     socket.on('humidity', (data) => {
       this.setState({ humidity: data.humidity });
     });
+
+    this.state.systemStatus === 'Alert' ?  this.setState({ textColor: 'red' }) : this.setState({ textColor: 'green' });
   },
 
   updateAuth() {
