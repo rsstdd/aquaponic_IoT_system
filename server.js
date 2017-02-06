@@ -23,8 +23,6 @@ const io = socketIO(server);
 const five = require('johnny-five');
 const twilioClient = require('./twilioClient');
 
-app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -81,6 +79,7 @@ const boards = new five.Boards(['A', 'B']).on('ready', function() {
 
 setInterval(() => {
   let count = 0;
+
   if (waterTemp <= 60 || waterTemp >= 80) {
     count += 1;
   }
